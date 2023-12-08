@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+/**
+*Program to list the contributors f this projrct
+*Return: 0 on success
+*//
+
+int main(){
+
+	FILE *fptr;
+	char *authors[] = {"Author1 <email1>", "Author2 <email2>",};
+	int num_authors  = sizeof(authors) / sizeof(char*);
+
+	fptr = fopen("AUTHORS","w");
+
+	if (fptr == NULL) {
+	printf("Error opening file!\n");
+return 1;
+}
+
+	for (int i = 0; i < num_authors; i++) {
+	fprintf(fptr, "%s\n",authors[i]);
+}
+
+fclose(fptr);
+
+return 0;
+}
