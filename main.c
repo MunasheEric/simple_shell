@@ -1,4 +1,4 @@
-#include "general.c"
+#include "general.h"
 #include "shell.h"
 
 /**
