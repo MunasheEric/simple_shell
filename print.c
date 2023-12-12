@@ -1,4 +1,4 @@
-#include "general.h"
+#include "general.c"
 #include "text.h"
 #include <unistd.h>
 
