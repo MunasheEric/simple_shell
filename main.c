@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 	info->argc = argc;
 	info->argv = argv;
 	info->mode = isatty(STDIN) == INTERACTIVE;
-	start(info);
+	stat(info);
 
 	status_code = info->status_code;
 
