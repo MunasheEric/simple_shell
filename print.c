@@ -21,7 +21,7 @@ int _putchar_to_fd(char c, int fd)
 /**
  * print_to_fd - Print a string
  *
- * @msg: Strin to print in the fd specified
+ * @msg: String to print in the fd specified
  * @fd: File descriptor to print
  *
  * Return: On success numbers of bytes printed.
