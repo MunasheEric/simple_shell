@@ -9,13 +9,13 @@
 #define MAX_COMMAND_LENGTH 1024
 
 /* Function to read a line from stdin*/
-char* read_line(void);
+char *read_line(void);
 
 /* Function to parse the line into arguments*/
-char** parse_line(char* line);
+char **parse_line(char *line);
 
 /* Function to execute the command*/
-int execute_command(char** args);
+int execute_command(char **args);
 
 #endif /* GENERAL_H*/
 

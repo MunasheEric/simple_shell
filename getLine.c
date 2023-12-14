@@ -1,4 +1,17 @@
+#ifndef GETLINE_H
+#define GETLINE_H
+
+
+#include "memory.h"
+
+// Declare any functions that use _realloc
+void getLine_function();
+
+#endif /* GETLINE_H */
+
+
 #include "shell.h"
+#include "memory.h"
 
 /**
  * input_buf - buffers chained commands
