@@ -4,7 +4,6 @@
 
 #include "memory.h"
 
-// Declare any functions that use _realloc
 void getLine_function();
 
 #endif /* GETLINE_H */
