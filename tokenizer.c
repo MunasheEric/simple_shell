@@ -1,94 +1,106 @@
-#include "shell.h"
+#include "text.h"
 
 /**
- * **strtow - splits a string into words. Repeat delimiters are ignored
- * @str: the input string
- * @d: the delimeter string
- * Return: a pointer to an array of strings, or NULL on failure
- */
-
-char **strtow(char *str, char *d)
+ * split_words - Split a line into words
+ *
+ * @line: Line to spli
+ * @sep: Delimiters for split the words
+ *
+ * Return: Set of words
+ **/
+char **split_words(char *line, const char *sep)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
+	char **words, **tmp, *token;
+	size_t new_size, old_size;
 
-	if (str == NULL || str[0] == 0)
-		return (NULL);
-	if (!d)
-		d = " ";
-	for (i = 0; str[i] != '\0'; i++)
-		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
-			numwords++;
-
-	if (numwords == 0)
-		return (NULL);
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
-		return (NULL);
-	for (i = 0, j = 0; j < numwords; j++)
+	old_size = sizeof(char *);
+	words = malloc(old_size);
+	if (words != NULL)
 	{
-		while (is_delim(str[i], d))
-			i++;
-		k = 0;
-		while (!is_delim(str[i + k], d) && str[i + k])
-			k++;
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
+		new_size = 1;
+		token = strtok(line, sep);
+		while (token)
 		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
-			return (NULL);
+			if (token[0] == '#')
+				break;
+			tmp = _realloc(words, old_size, (new_size + 1) * sizeof(char *));
+			old_size = (new_size + 1) * sizeof(char *);
+			if (tmp == NULL)
+				break;
+
+			words = tmp;
+			++new_size;
+
+			words[new_size - 2] = malloc(_strlen(token) + 1);
+			if (words == NULL)
+			{
+				free(tmp);
+				free(words);
+			}
+
+			if (words[new_size - 2] != NULL)
+				_strcpy(words[new_size - 2], token);
+
+			token = strtok(NULL, sep);
+
+			tmp = NULL;
 		}
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
+
+		words[new_size - 1] = NULL;
 	}
-	s[j] = NULL;
-	return (s);
+
+	return (words);
 }
 
-/**
- * **strtow2 - splits a string into words
- * @str: the input string
- * @d: the delimeter
- * Return: a pointer to an array of strings, or NULL on failure
- */
-char **strtow2(char *str, char d)
-{
-	int i, j, k, m, numwords = 0;
-	char **s;
 
-	if (str == NULL || str[0] == 0)
+/**
+ * join_words - Join 3 words with a separator
+ * Description: Result -> w1.sep.w2.sep.nl
+ * @word1: Word1 to join
+ * @word2: Word2 to join
+ * @word3: Word3 to join
+ * @sep: Separator between the words
+ *
+ * Return: Line composed by 3 parts followed by a separator and
+ * end by a new line
+ **/
+char *join_words(char *word1, char *word2, char *word3,  const char *sep)
+{
+	char *aux;
+	int size_str1, size_str2, size_str3, size_sep;
+
+	size_str1 = size_str2 = size_sep = 0;
+
+	if (word1 != NULL)
+		size_str1 = _strlen(word1);
+	else
+		word1 = "";
+
+	if (word2 != NULL)
+		size_str2 = _strlen(word2);
+	else
+		word2 = "";
+
+	if (word3 != NULL)
+		size_str3 = _strlen(word3);
+	else
+		word3 = "";
+
+	if (sep != NULL)
+		size_sep = _strlen((char *) sep);
+	else
+		sep = "";
+
+	aux = malloc(size_str1 + size_str2 + size_sep + size_str3 + size_sep + 2);
+	if (aux == NULL)
 		return (NULL);
-	for (i = 0; str[i] != '\0'; i++)
-		if ((str[i] != d && str[i + 1] == d) ||
-		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
-			numwords++;
-	if (numwords == 0)
-		return (NULL);
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
-		return (NULL);
-	for (i = 0, j = 0; j < numwords; j++)
-	{
-		while (str[i] == d && str[i] != d)
-			i++;
-		k = 0;
-		while (str[i + k] != d && str[i + k] && str[i + k] != d)
-			k++;
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
-		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
-			return (NULL);
-		}
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
-	}
-	s[j] = NULL;
-	return (s);
+
+	aux = _strcpy(aux, word1);
+	aux = _strcat(aux, (char *) sep);
+	aux = _strcat(aux, word2);
+	aux = _strcat(aux, (char *) sep);
+	aux = _strcat(aux, word3);
+	aux = _strcat(aux, "\n");
+
+	return (aux);
 }

@@ -1,87 +1,115 @@
-#include "shell.h"
+#include "general.h"
+#include "text.h"
 
 /**
- * _strcpy - copies a string
- * @dest: the destination
- * @src: the source
+ * digits - Cout the numbe of digits of a number
  *
- * Return: pointer to destination
- */
-char *_strcpy(char *dest, char *src)
+ * @n: Number
+ *
+ * Return: Digits
+ **/
+int digits(int n)
 {
-	int i = 0;
+	int i;
 
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
+	for (i = 0; n != 0; i++, n /= 10)
+		;
+
+	return (i);
 }
 
 /**
- * _strdup - duplicates a string
- * @str: the string to duplicate
+ * to_string - Conver @number to string
  *
- * Return: pointer to the duplicated string
- */
-char *_strdup(const char *str)
+ * @number: Number to convert
+ *
+ * Return: Number as string
+ **/
+char *to_string(int number)
 {
-	int length = 0;
-	char *ret;
+	int n_digits, i;
+	char *_number;
 
-	if (str == NULL)
-		return (NULL);
-	while (*str++)
-		length++;
-	ret = malloc(sizeof(char) * (length + 1));
-	if (!ret)
-		return (NULL);
-	for (length++; length--;)
-		ret[length] = *--str;
-	return (ret);
+	n_digits = digits(number);
+	_number = malloc(n_digits * sizeof(char) + 2);
+	if (number == 0)
+	{
+		_number[0] = '0';
+		_number[1] = '\0';
+		return (_number);
+	}
+	/* Check NULL */
+
+	_number[n_digits] = '\0';
+	for (i = n_digits - 1; number != 0; number /= 10, i--)
+		_number[i] = (number % 10) + '0';
+
+	return (_number);
+}
+
+
+/**
+ * is_numerical - Check if is a digit
+ *
+ * @n: Number
+ *
+ * Return: If is a number, return 1 else return 0
+ */
+int is_numerical(unsigned int n)
+{
+	return (n >= '0' && n <= '9');
 }
 
 /**
- *_puts - prints an input string
- *@str: the string to be printed
+ * _atoi - Convert a string to a number
  *
- * Return: Nothing
+ * @s: String to convert
+ *
+ * Return: Return the number
  */
-void _puts(char *str)
+int _atoi(char *s)
 {
-	int i = 0;
+	unsigned int number, i;
+	int sign;
 
-	if (!str)
-		return;
-	while (str[i] != '\0')
+	sign = 1;
+	number = 0;
+	for (i = 0; s[i] != '\0'; i++)
 	{
-		_putchar(str[i]);
-		i++;
+		if (is_numerical(s[i]))
+		{
+			number = (s[i] - 48)	+ number * 10;
+
+			if (s[i + 1] == ' ')
+				break;
+		}
+		else if (s[i] == '-')
+		{
+			sign *= -1;
+		}
+
 	}
+
+	return (number * sign);
 }
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
+ * contains_letter - Search non-digits in a string
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _putchar(char c)
+ * @s: String for search
+ *
+ * Return: If a non-digits was found, return _TRUE
+ * if not, return _FALSE
+ **/
+int contains_letter(char *s)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	int i;
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	for (i = 0; s[i] != '\0'; i++)
 	{
-		write(1, buf, i);
-		i = 0;
+		if (is_numerical(s[i]) == _FALSE)
+			return (_TRUE);
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
-	return (1);
+
+	return (_FALSE);
 }
