@@ -1,5 +1,5 @@
 #include "commands.h"
-#include "builtins.h"
+#include "builtin.h"
 #include "general.h"
 #include "memory.h"
 #include "text.h"

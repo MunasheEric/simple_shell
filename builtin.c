@@ -1,15 +1,15 @@
-#include "builtins.h"
+#include "builtin.h"
 
 /**
- * builtins - Check and execute the builtins
+ * builtin - Check and execute the builtin
  *
  * @info: Information about the shell
  * @arguments: Commands and arguments
  *
- * Return: If the command passed is a builtins
+ * Return: If the command passed is a builtin
  * return _TRUE if not return _FALSE
  **/
-int builtins(general_t *info, char **arguments)
+int builtin(general_t *info, char **arguments)
 {
 	int status;
 

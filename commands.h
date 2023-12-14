@@ -11,7 +11,7 @@
 #include "general.h"
 #include "text.h"
 #include "error.h"
-#include "builtins.h"
+#include "builtin.h"
 #include "memory.h"
 
 extern char **environ;

@@ -65,6 +65,7 @@ char *replace_value(general_t *info, int *index, char *string)
 	old_s = _strlen(string);
 	new_s = _strlen(value) + 1;
 
+	string = _realloc(string, old_s, new_s);
 	string = _strcpy(string, value);
 
 	free_memory_p(value);
